@@ -1,7 +1,7 @@
-var express = require('express'),
-  session = require('express-session'),
-  CASAuthentication = require('cas-authentication'),
-  config = require('./config')
+var express = require('express')
+var session = require('express-session')
+var CASAuthentication = require('cas-authentication')
+var config = require('./config')
 
 var app = express()
 
@@ -20,7 +20,7 @@ var cas = new CASAuthentication(config)
 // Unauthenticated clients will be redirected to the CAS login and then back to
 // this route once authenticated.
 app.get('/app', cas.bounce, function (req, res) {
-  res.send('<html><body>Hello!</body></html>')
+  res.send(`<html><body>Hello, ${req.session['cas_user']}</body></html>`)
 })
 
 // Unauthenticated clients will receive a 401 Unauthorized response instead of
